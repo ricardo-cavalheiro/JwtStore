@@ -11,3 +11,5 @@ Email:DefaultFromName
 Email:DefaultFromEmail
 DatabaseParams:Password
 ```
+
+PS: you don't actually need a valid SendGrid ApiKey to run this project. Any value will suffice.
