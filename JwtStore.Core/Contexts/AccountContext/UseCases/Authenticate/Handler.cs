@@ -1,6 +1,7 @@
 using JwtStore.Core.Contexts.AccountContext.Entities;
 using JwtStore.Core.Contexts.AccountContext.UseCases.Authenticate.Contracts;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace JwtStore.Core.Contexts.AccountContext.UseCases.Authenticate;
 
@@ -8,7 +9,10 @@ public class Handler : IRequestHandler<Request, Response>
 {
   private readonly IRepository _repository;
 
-  public Handler(IRepository repository) => _repository = repository;
+  private readonly ILogger<Handler> _logger;
+
+  public Handler(IRepository repository, ILogger<Handler> logger)
+    => (_repository, _logger) = (repository, logger);
 
   public async Task<Response> Handle(
     Request request,
@@ -24,8 +28,10 @@ public class Handler : IRequestHandler<Request, Response>
         return new Response("Requisição inválida", 400, res.Notifications);
       }
     }
-    catch (Exception)
+    catch (Exception ex)
     {
+      _logger.LogError(ex, "Não foi possível validar sua requisição");
+
       return new Response("Não foi possível validar sua requisição", 500);
     }
 
@@ -62,7 +68,7 @@ public class Handler : IRequestHandler<Request, Response>
       return new Response("Não foi possível verificar seu perfil", 500);
     }
 
-    
+
 
     try
     {

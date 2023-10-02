@@ -2,6 +2,7 @@ using JwtStore.Core.Contexts.AccountContext.Entities;
 using JwtStore.Core.Contexts.AccountContext.UseCases.Create.Contracts;
 using JwtStore.Core.Contexts.AccountContext.ValueObjects;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace JwtStore.Core.Contexts.AccountContext.UseCases.Create;
 
@@ -9,11 +10,13 @@ public class Handler : IRequestHandler<Request, Response>
 {
   private readonly IRepository _repository;
   private readonly IService _service;
+  private readonly ILogger<Handler> _logger;
 
-  public Handler(IRepository repository, IService service)
+  public Handler(IRepository repository, IService service, ILogger<Handler> logger)
   {
     _repository = repository;
     _service = service;
+    _logger = logger;
   }
 
   public async Task<Response> Handle(
@@ -30,8 +33,10 @@ public class Handler : IRequestHandler<Request, Response>
         return new Response("Requisição inválida", 400, requestValidation.Notifications);
       }
     }
-    catch (Exception)
+    catch (Exception ex)
     {
+      _logger.LogError(ex, "Não foi possível validar a requisição.");
+
       return new Response("Não foi possível validar a requisição.", 500);
     }
 
