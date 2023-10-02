@@ -27,7 +27,8 @@ public static class BuilderExtension
       builder.Configuration.GetConnectionString(Configurations.Database.Key)
     )
     {
-      Password = databaseParams.Password
+      Password = databaseParams.Password,
+      DataSource = databaseParams.DataSource
     };
 
     Configurations.Database.ConnectionString = connectionStringBuilder.ConnectionString;

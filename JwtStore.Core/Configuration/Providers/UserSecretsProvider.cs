@@ -3,7 +3,10 @@ namespace JwtStore.Core.Configuration.Providers;
 public class DatabaseParamsConfiguration
 {
   public string Key { get; private set; } = "DatabaseParams";
+
   public string Password { get; set; } = string.Empty;
+
+  public string DataSource { get; set; } = string.Empty;
 }
 
 public class SecretsConfiguration
