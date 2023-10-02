@@ -1,0 +1,38 @@
+version: '3.9'
+
+name: jwtstore-dev
+
+networks:
+  jwt-store:
+    driver: bridge
+
+services:
+  jwtstore-database:
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=1q2w3e4r@#$
+    container_name: jwtstore-database
+    networks:
+      - jwt-store
+
+  jwtstore-webapi:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: jwtstore-webapi
+    depends_on:
+      - jwtstore-database
+    ports:
+      - "5000:80"
+    networks:
+      - jwt-store
+    environment:
+      - SendGrid:ApiKey=TOKEN_SENDGRID
+      - Secrets:PasswordSaltKey=Cm20]N5?4pb9%R+k8[L
+      - Secrets:JwtPrivateKey=CK54q}V6r]3$7oaa/*b
+      - Secrets:ApiKey=wN~EQ!Pe46xw23026YiM
+      - Email:DefaultFromName=ricardo
+      - Email:DefaultFromEmail=ricardo@email.com
+      - DatabaseParams:Password=1q2w3e4r@#$
+      - DatabaseParams:DataSource=jwtstore-database
