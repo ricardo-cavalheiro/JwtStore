@@ -65,6 +65,6 @@ public static class AccountContextExtension
           return Results.Ok(result);
         }
       )
-      .RequireAuthorization();
+      .AllowAnonymous();
   }
 }
