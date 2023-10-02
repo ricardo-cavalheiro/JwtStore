@@ -10,10 +10,17 @@ builder.AddMediator();
 
 var app = builder.Build();
 
+app
+  .UseExceptionHandler(
+    exceptionHandlerApp
+      => exceptionHandlerApp
+          .Run(async context
+              => await Results
+                  .Problem()
+                  .ExecuteAsync(context)
+          )
+  );
 app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapAccountEndpoints();
 
