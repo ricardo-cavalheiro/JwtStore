@@ -16,7 +16,7 @@ DatabaseParams:DataSource **
 ```
 
 \* You don't actually need a valid SendGrid ApiKey to run this project. Any value will suffice.  
-** If using Docker, set it to `localhost,<port>`. Ex: `localhost,1433`.
+** If using Docker, set it to `jwtstore-database`. If using host computer, use `localhost,<port>`; ex: `localhost,1433`.
 
 2 - Apply Database Migrations
 
